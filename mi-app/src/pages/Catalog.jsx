@@ -1,22 +1,51 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useInventory } from '../context/InventoryContext';
 
 const Catalog = () => {
-  return (
-    <div className="max-w-2xl mx-auto text-white mt-10">
-      <div className="bg-slate-800 border border-slate-700 rounded-xl p-8 shadow-xl text-center space-y-5">
-        <h3 className="text-xl font-bold text-white">Módulo: Catálogo de Hardware</h3>
-        
-        <div className="bg-blue-600/10 border border-blue-500/20 text-blue-400 text-sm p-4 rounded-lg">
-          <strong>[Hito Planificado] - Plazo 2</strong><br />
-          Este módulo está asignado a <strong>Guille</strong> y será implementado en la siguiente fase de desarrollo.
-        </div>
+  const { products, addProduct, updateProduct, deleteProduct, currentUser } = useInventory();
 
-        <p className="text-sm text-slate-400 leading-relaxed">
-          En el Plazo 2 se añadirá la tabla reactiva con todos los componentes tecnológicos, búsqueda en tiempo real por texto, filtros por categoría (CPU, GPU, RAM, etc.) y la lógica CRUD completa para agregar, editar y eliminar piezas en almacén.
-        </p>
-      </div>
-    </div>
-  );
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('');
+
+  const [isCrudModalOpen, setIsCrudModalOpen] = useState(false);
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+
+  const categories = ['CPU', 'GPU', 'RAM', 'Almacenamiento', 'Motherboard'];
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+    const form = new FormData(e.target);
+    const productPayload = {
+      brand: form.get('brand').trim(),
+      model: form.get('model').trim(),
+      category: form.get('category'),
+      price: parseFloat(form.get('price')),
+      minStock: parseInt(form.get('minStock')),
+      specs: form.get('specs').trim()
+    };
+
+    if (selectedProduct) {
+      updateProduct(selectedProduct.id, productPayload);
+    } else {
+      addProduct({
+        ...productPayload,
+        stock: parseInt(form.get('stock') || 0)
+      });
+    }
+
+    setIsCrudModalOpen(false);
+  };
+
+  const filteredProducts = products ? products.filter(p => {
+    const coincideTexto = p.brand.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                          p.model.toLowerCase().includes(searchTerm.toLowerCase());
+    const coincideCat = selectedCategory === '' || p.category === selectedCategory;
+    return coincideTexto && coincideCat;
+  }) : [];
+
+  
 };
 
 export default Catalog;

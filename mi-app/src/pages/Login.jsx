@@ -7,8 +7,10 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
   const [generalError, setGeneralError] = useState('');
+  
   const { login, currentUser } = useInventory();
   const navigate = useNavigate();
+
   useEffect(() => {
     if (currentUser) {
       navigate('/dashboard');
@@ -41,31 +43,20 @@ const Login = () => {
     }
   };
 
-  const handleQuickLogin = (quickEmail, quickPassword) => {
-    setEmail(quickEmail);
-    setPassword(quickPassword);
-    
-    const result = login(quickEmail, quickPassword);
-    if (result.success) {
-      navigate('/dashboard');
-    } else {
-      setGeneralError(result.message);
-    }
-  };
-
   return (
     <div className="min-h-screen w-full bg-slate-900 flex justify-center items-center p-5 text-slate-100">
       <div className="w-full max-w-md bg-slate-800 border border-slate-700 rounded-xl p-8 shadow-2xl transition-all duration-300 hover:border-blue-500/30">
+        
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-extrabold text-white tracking-tight flex items-center justify-center gap-2 mb-2">
+          <h1 className="text-3xl font-extrabold text-white tracking-tight mb-2">
             InventoryPro
           </h1>
-          <p className="text-sm text-slate-400">Control de Inventario de Hardware</p>
+          <p className="text-sm text-slate-400 font-semibold">Control de Inventario de Hardware</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5" noValidate>
           {generalError && (
-            <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-sm p-3 rounded-lg flex items-center gap-2">
+            <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-sm p-3 rounded-lg">
               {generalError}
             </div>
           )}
@@ -108,25 +99,6 @@ const Login = () => {
           </button>
         </form>
 
-        <div className="mt-8 pt-6 border-t border-slate-700/60 text-center">
-          <div className="text-[10px] text-slate-500 uppercase tracking-widest font-bold mb-3">
-            Accesos Rápidos de Prueba
-          </div>
-          <div className="flex gap-2">
-            <button
-              onClick={() => handleQuickLogin('admin@inventorypro.com', 'admin')}
-              className="flex-1 bg-slate-700/40 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700/60 text-[11px] font-semibold py-2 px-3 rounded-md transition duration-200 cursor-pointer"
-            >
-              Admin (Total)
-            </button>
-            <button
-              onClick={() => handleQuickLogin('operario@inventorypro.com', 'user')}
-              className="flex-1 bg-slate-700/40 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700/60 text-[11px] font-semibold py-2 px-3 rounded-md transition duration-200 cursor-pointer"
-            >
-              Operario (Restringido)
-            </button>
-          </div>
-        </div>
       </div>
     </div>
   );

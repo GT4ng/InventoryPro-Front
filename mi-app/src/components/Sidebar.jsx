@@ -5,12 +5,14 @@ import { useInventory } from '../context/InventoryContext';
 const Sidebar = () => {
   const { currentUser } = useInventory();
   const menuItems = [
-    { path: '/dashboard', label: 'Dashboard' }
+    { path: '/dashboard', label: 'Dashboard' },
+    { path: '/catalog', label: 'Catálogo Hardware' },
+    ...(currentUser?.role === 'admin' ? [{ path: '/users', label: 'Personal / Roles' }] : [])
   ];
 
   return (
     <aside className="fixed top-0 left-0 w-64 h-screen bg-slate-800 border-r border-slate-700 flex flex-col z-20">
-      <div className="p-5 text-xl font-bold text-center border-b border-slate-700 text-white flex items-center justify-center gap-2">
+      <div className="p-5 text-xl font-bold text-center border-b border-slate-700 text-white">
         InventoryPro
       </div>
       

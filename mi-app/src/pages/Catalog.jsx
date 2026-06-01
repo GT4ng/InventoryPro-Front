@@ -3,11 +3,14 @@ import { useInventory } from '../context/InventoryContext';
 
 const Catalog = () => {
   const { products, addProduct, updateProduct, deleteProduct, currentUser } = useInventory();
+
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
+
   const [isCrudModalOpen, setIsCrudModalOpen] = useState(false);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [selectedProduct, setSelectedProduct] = useState(null); // null = Modo Creación, Objeto = Modo Edición o Detalles
+
   const categories = ['CPU', 'GPU', 'RAM', 'Almacenamiento', 'Motherboard'];
 
   const handleSubmit = (e) => {
@@ -32,7 +35,7 @@ const Catalog = () => {
       });
     }
 
-    setIsCrudModalOpen(false);
+    setIsCrudModalOpen(false); 
   };
 
   const filteredProducts = products ? products.filter(p => {
@@ -44,6 +47,7 @@ const Catalog = () => {
 
   return (
     <div className="animar-aparicion">
+      
       <div className="barra-filtros">
         <div className="entradas-filtros">
           <input

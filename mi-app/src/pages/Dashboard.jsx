@@ -3,14 +3,20 @@ import { useInventory } from '../context/InventoryContext';
 
 const Dashboard = () => {
   const { products, movements } = useInventory();
+
   const totalValuation = products ? products.reduce((acc, p) => acc + (p.stock * p.price), 0) : 0;
+
   const totalProducts = products ? products.length : 0;
+
   const alertsCount = products ? products.filter(p => p.stock <= p.minStock).length : 0;
+
   const recentMovements = movements ? movements.slice(0, 4) : [];
 
   return (
     <div className="animar-aparicion">
+      
       <div className="rejilla-metricas">
+        
         <div className="tarjeta-metrica">
           <span className="titulo-tarjeta">Valor del Inventario</span>
           <div className="valor-tarjeta">
@@ -37,7 +43,7 @@ const Dashboard = () => {
       </div>
 
       <div className="division-dashboard">
-      
+        
         <div className="panel-dashboard">
           <div className="cabecera-panel">
             <h3>Últimas Transacciones de Almacén</h3>
@@ -77,4 +83,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-

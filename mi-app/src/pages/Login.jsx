@@ -7,7 +7,6 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
   const [generalError, setGeneralError] = useState('');
-  
   const { login, currentUser } = useInventory();
   const navigate = useNavigate();
 
@@ -44,57 +43,48 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen w-full bg-slate-900 flex justify-center items-center p-5 text-slate-100">
-      <div className="w-full max-w-md bg-slate-800 border border-slate-700 rounded-xl p-8 shadow-2xl transition-all duration-300 hover:border-blue-500/30">
+    <div className="contenedor-login">
+      <div className="tarjeta-login">
         
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-extrabold text-white tracking-tight mb-2">
-            InventoryPro
-          </h1>
-          <p className="text-sm text-slate-400 font-semibold">Control de Inventario de Hardware</p>
+        <div className="cabecera-login">
+          <h1>InventoryPro</h1>
+          <p>Control de Inventario de Hardware</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-5" noValidate>
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }} noValidate>
           {generalError && (
-            <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-sm p-3 rounded-lg">
+            <div className="error-formulario">
               {generalError}
             </div>
           )}
 
-          <div>
-            <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2" htmlFor="email">
-              Correo Electrónico
-            </label>
+          <div className="grupo-formulario">
+            <label htmlFor="email">Correo Electrónico</label>
             <input
               id="email"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="admin@inventorypro.com"
-              className="w-full bg-slate-900 border border-slate-700 focus:border-blue-500 rounded-lg px-4 py-2.5 text-sm text-slate-100 outline-none transition duration-200"
+              className="campo-entrada"
             />
-            {errors.email && <p className="text-red-400 text-xs mt-1.5">{errors.email}</p>}
+            {errors.email && <p className="error-formulario" style={{ margin: '8px 0 0 0', padding: '4px 8px' }}>{errors.email}</p>}
           </div>
 
-          <div>
-            <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2" htmlFor="password">
-              Contraseña
-            </label>
+          <div className="grupo-formulario">
+            <label htmlFor="password">Contraseña</label>
             <input
               id="password"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
-              className="w-full bg-slate-900 border border-slate-700 focus:border-blue-500 rounded-lg px-4 py-2.5 text-sm text-slate-100 outline-none transition duration-200"
+              className="campo-entrada"
             />
-            {errors.password && <p className="text-red-400 text-xs mt-1.5">{errors.password}</p>}
+            {errors.password && <p className="error-formulario" style={{ margin: '8px 0 0 0', padding: '4px 8px' }}>{errors.password}</p>}
           </div>
 
-          <button
-            type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-2.5 rounded-lg text-sm transition duration-200 shadow-lg shadow-blue-600/20 cursor-pointer"
-          >
+          <button type="submit" className="boton boton-primario boton-completo">
             Iniciar Sesión
           </button>
         </form>

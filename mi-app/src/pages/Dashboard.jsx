@@ -1,87 +1,74 @@
 import React from 'react';
+import { useInventory } from '../context/InventoryContext';
 
 const Dashboard = () => {
-  const mockValuation = 14589.90;
-  const mockTotalProducts = 15;
-  const mockAlertsCount = 2;
-
-  const mockMovements = [
-    { id: 1, productName: "Intel Core i9-13900K", type: "entrada", quantity: 5, date: "2026-05-25T14:30:00Z", user: "Administrador", role: "admin" },
-    { id: 2, productName: "NVIDIA GeForce RTX 4080 Super", type: "salida", quantity: 2, date: "2026-05-26T10:15:00Z", user: "Operario", role: "operario" }
-  ];
+  const { products, movements } = useInventory();
+  const totalValuation = products ? products.reduce((acc, p) => acc + (p.stock * p.price), 0) : 0;
+  const totalProducts = products ? products.length : 0;
+  const alertsCount = products ? products.filter(p => p.stock <= p.minStock).length : 0;
+  const recentMovements = movements ? movements.slice(0, 4) : [];
 
   return (
-    <div className="space-y-8 text-white animate-in fade-in duration-300">
-      
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        
-        <div className="bg-slate-800 border border-slate-700 p-6 rounded-xl shadow-md transition-all duration-300 hover:border-slate-650">
-          <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-1">
-            Valor del Inventario
-          </span>
-          <div className="text-3xl font-extrabold text-white font-mono">
-            ${mockValuation.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+    <div className="animar-aparicion">
+      <div className="rejilla-metricas">
+        <div className="tarjeta-metrica">
+          <span className="titulo-tarjeta">Valor del Inventario</span>
+          <div className="valor-tarjeta">
+            ${totalValuation.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
           </div>
-          <span className="text-xs text-emerald-400 font-semibold block mt-2">
-            Costo total de existencias (Semilla)
-          </span>
+          <span className="desc-tarjeta verde">Costo total de existencias</span>
         </div>
 
-        <div className="bg-slate-800 border border-slate-700 p-6 rounded-xl shadow-md transition-all duration-300 hover:border-slate-650">
-          <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-1">
-            Componentes en Catálogo
-          </span>
-          <div className="text-3xl font-extrabold text-white font-mono">
-            {mockTotalProducts}
-          </div>
-          <span className="text-xs text-slate-400 font-semibold block mt-2">
-            Piezas de hardware registradas (Semilla)
-          </span>
+        <div className="tarjeta-metrica">
+          <span className="titulo-tarjeta">Componentes en Catálogo</span>
+          <div className="valor-tarjeta">{totalProducts}</div>
+          <span className="desc-tarjeta mutado">Piezas de hardware registradas</span>
         </div>
 
-        <div className="bg-slate-800 border border-slate-700 p-6 rounded-xl shadow-md transition-all duration-300 hover:border-slate-650">
-          <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-1">
-            Alertas de Stock
-          </span>
-          <div className={`text-3xl font-extrabold font-mono ${mockAlertsCount > 0 ? 'text-red-500' : 'text-white'}`}>
-            {mockAlertsCount}
+        <div className="tarjeta-metrica">
+          <span className="titulo-tarjeta">Alertas de Stock</span>
+          <div className="valor-tarjeta" style={{ color: alertsCount > 0 ? 'var(--rojo)' : 'white' }}>
+            {alertsCount}
           </div>
-          <span className={`text-xs font-semibold block mt-2 ${mockAlertsCount > 0 ? 'text-red-400' : 'text-slate-400'}`}>
-            Requiere reabastecimiento crítico (Semilla)
+          <span className={`desc-tarjeta ${alertsCount > 0 ? 'rojo' : 'mutado'}`}>
+            {alertsCount > 0 ? 'Requiere reabastecimiento crítico' : 'Reposición al día'}
           </span>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        
-        <div className="lg:col-span-2 bg-slate-800 border border-slate-700 p-6 rounded-xl shadow-md">
-          <div className="flex justify-between items-center mb-5 pb-3 border-b border-slate-700">
-            <h3 className="text-lg font-bold text-white">
-              Últimas Transacciones de Almacén (Muestra)
-            </h3>
+      <div className="division-dashboard">
+      
+        <div className="panel-dashboard">
+          <div className="cabecera-panel">
+            <h3>Últimas Transacciones de Almacén</h3>
           </div>
 
-          <ul className="divide-y divide-slate-700">
-            {mockMovements.map(m => (
-              <li key={m.id} className="py-3.5 flex justify-between items-center text-sm">
-                <div>
-                  <strong className="text-white font-semibold">{m.productName}</strong>
-                  <div className="text-xs text-slate-400 mt-0.5">Operado por: {m.user} ({m.role})</div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <strong className={`font-mono text-base ${m.type === 'entrada' ? 'text-emerald-400' : 'text-red-400'}`}>
-                    {m.type === 'entrada' ? '+' : '-'}{m.quantity}
-                  </strong>
-                  <span className={`text-[10px] font-bold uppercase px-2.5 py-0.5 rounded-full border ${
-                    m.type === 'entrada' 
-                      ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' 
-                      : 'bg-red-500/10 text-red-400 border-red-500/20'
-                  }`}>
-                    {m.type === 'entrada' ? 'Entrada' : 'Salida'}
-                  </span>
-                </div>
+          <ul className="lista-recientes">
+            {recentMovements.length === 0 ? (
+              <li className="item-reciente" style={{ justifyContent: 'center', color: 'var(--color-mutado)' }}>
+                No hay transacciones registradas recientemente.
               </li>
-            ))}
+            ) : (
+              recentMovements.map(m => (
+                <li key={m.id} className="item-reciente">
+                  <div className="info-item">
+                    <strong>{m.productName}</strong>
+                    <div className="item-meta">Operado por: {m.user} ({m.role})</div>
+                  </div>
+                  <div className="accion-item">
+                    <span 
+                      className="cantidad-accion" 
+                      style={{ color: m.type === 'entrada' ? 'var(--verde)' : 'var(--rojo)' }}
+                    >
+                      {m.type === 'entrada' ? '+' : '-'}{m.quantity}
+                    </span>
+                    <span className={`etiqueta ${m.type === 'entrada' ? 'etiqueta-verde' : 'etiqueta-roja'}`}>
+                      {m.type === 'entrada' ? 'Entrada' : 'Salida'}
+                    </span>
+                  </div>
+                </li>
+              ))
+            )}
           </ul>
         </div>        
       </div>
@@ -90,3 +77,4 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+

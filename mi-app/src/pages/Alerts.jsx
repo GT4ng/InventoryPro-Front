@@ -1,9 +1,9 @@
-
 import React from 'react';
 import { useInventory } from '../context/InventoryContext';
 
 const Alerts = () => {
   const { products } = useInventory();
+
   const criticalProducts = products ? products.filter(p => p.stock <= p.minStock) : [];
 
   const handleReorder = (p) => {
@@ -23,6 +23,7 @@ const Alerts = () => {
 
   return (
     <div className="animar-aparicion">
+
       <div className="panel-dashboard" style={{ marginBottom: '24px' }}>
         <h3 style={{ color: 'white', fontSize: '18px', fontWeight: 'bold', marginBottom: '8px' }}>
           Control de Existencias Críticas

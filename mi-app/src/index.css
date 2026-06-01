@@ -1,18 +1,380 @@
-@import "tailwindcss";
-@layer base {
-  ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-  }
-  ::-webkit-scrollbar-track {
-    background: #0f172a;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: #334155;
-    border: 2px solid #0f172a;
-    border-radius: 4px;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: #3b82f6;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #0f172a;
+  color: #f8fafc;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+}
+
+.contenedor-app {
+  display: flex;
+  min-height: 100vh;
+}
+
+.barra-lateral {
+  width: 220px;
+  background-color: #1e293b;
+  border-right: 1px solid #334155;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+}
+
+.logo-lateral {
+  padding: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  border-bottom: 1px solid #334155;
+}
+
+.menu-lateral {
+  list-style: none;
+  padding: 10px;
+  flex-grow: 1;
+}
+
+.menu-lateral li {
+  margin-bottom: 5px;
+}
+
+.enlace-lateral {
+  display: block;
+  padding: 10px;
+  color: #94a3b8;
+  text-decoration: none;
+  border-radius: 4px;
+}
+
+.enlace-lateral:hover,
+.enlace-lateral.active {
+  color: white;
+  background-color: #2563eb;
+}
+
+.usuario-lateral {
+  padding: 15px;
+  border-top: 1px solid #334155;
+}
+
+.nombre-usuario {
+  font-weight: bold;
+  display: block;
+}
+
+.rol-usuario {
+  font-size: 12px;
+  color: #94a3b8;
+  text-transform: capitalize;
+}
+
+.contenido-principal {
+  margin-left: 220px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.barra-cabecera {
+  height: 60px;
+  background-color: #1e293b;
+  border-bottom: 1px solid #334155;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.acciones-cabecera,
+.estado-cabecera {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.punto-estado {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #10b981;
+}
+
+.cuerpo-principal {
+  padding: 20px;
+}
+
+.tarjeta-login,
+.tarjeta-metrica,
+.panel-dashboard,
+.contenedor-formulario,
+.contenedor-tabla,
+.tarjeta-usuario,
+.contenido-modal {
+  background-color: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.contenedor-login {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cabecera-login,
+.cabecera-panel,
+.cabecera-formulario,
+.cabecera-modal {
+  text-align: center;
+  border-bottom: 1px solid #334155;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.grupo-formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.grupo-formulario label {
+  font-size: 11px;
+  color: #94a3b8;
+  font-weight: bold;
+}
+
+.campo-entrada,
+.campo-seleccion,
+.campo-texto {
+  width: 100%;
+  background-color: #0f172a;
+  border: 1px solid #334155;
+  color: white;
+  padding: 8px;
+  border-radius: 4px;
+  outline: none;
+}
+
+.campo-entrada:focus,
+.campo-seleccion:focus,
+.campo-texto:focus {
+  border-color: #2563eb;
+}
+
+.campo-texto {
+  resize: none;
+}
+
+.error-formulario {
+  color: #ef4444;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.exito-formulario {
+  color: #10b981;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.boton {
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  text-align: center;
+  font-size: 13px;
+  color: white;
+  background-color: #475569;
+}
+
+.boton-primario {
+  background-color: #2563eb;
+}
+
+.boton-peligro {
+  background-color: #ef4444;
+}
+
+.boton-exito,
+.boton-advertencia {
+  background-color: #10b981;
+}
+
+.boton-completo {
+  display: block;
+  width: 100%;
+}
+
+.rejilla-metricas,
+.division-dashboard,
+.distribucion-usuarios {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+@media (min-width: 1024px) {
+  .division-dashboard {
+    grid-template-columns: 2fr 1fr;
   }
 }
+
+.titulo-tarjeta {
+  font-size: 11px;
+  color: #94a3b8;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.valor-tarjeta {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.desc-tarjeta {
+  font-size: 12px;
+  margin-top: 5px;
+  display: block;
+  color: #94a3b8;
+}
+
+.desc-tarjeta.verde { color: #10b981; }
+.desc-tarjeta.rojo { color: #ef4444; }
+
+.lista-recientes {
+  list-style: none;
+}
+
+.item-reciente {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #334155;
+}
+
+.item-reciente:last-child {
+  border-bottom: none;
+}
+
+.info-item .item-meta {
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+.accion-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cantidad-accion {
+  font-weight: bold;
+}
+
+.contenedor-tabla {
+  padding: 0;
+  overflow: hidden;
+}
+
+.desplazamiento-horizontal {
+  overflow-x: auto;
+}
+
+.tabla-personalizada {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabla-personalizada th,
+.tabla-personalizada td {
+  padding: 12px;
+  border-bottom: 1px solid #334155;
+  text-align: left;
+}
+
+.tabla-personalizada th {
+  background-color: rgba(0, 0, 0, 0.2);
+  color: #94a3b8;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.tabla-personalizada tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+.tabla-personalizada tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.alineacion-derecha {
+  text-align: right;
+}
+
+.capa-modal {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+
+.cuerpo-modal {
+  padding: 16px;
+}
+
+.cerrar-modal {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.etiqueta {
+  display: inline-block;
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background-color: #334155;
+  color: white;
+}
+
+.etiqueta-azul { background-color: rgba(37, 99, 235, 0.2); color: #60a5fa; }
+.etiqueta-roja { background-color: rgba(239, 68, 68, 0.2); color: #f87171; }
+.etiqueta-verde { background-color: rgba(16, 185, 129, 0.2); color: #34d399; }
+.etiqueta-gris { background-color: rgba(71, 85, 105, 0.2); color: #cbd5e1; }
+
+.acciones-usuario {
+  display: flex;
+  gap: 5px;
+}
+
+.animar-aparicion {
+  opacity: 1;
+}
+
+

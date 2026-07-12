@@ -11,7 +11,7 @@ const StockFlow = () => {
 
   const selectedProduct = products ? products.find(p => p.id === parseInt(productId)) : null;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setSuccess(false);
@@ -33,7 +33,7 @@ const StockFlow = () => {
       return;
     }
 
-    registerMovement(parseInt(productId), type, quantityVal, reasonVal);
+    await registerMovement(parseInt(productId), type, quantityVal, reasonVal);
 
     setProductId('');
     setSuccess(true);

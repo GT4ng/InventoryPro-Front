@@ -28,13 +28,14 @@ const Login = () => {
     return Object.keys(tempErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setGeneralError('');
 
     if (!validate()) return;
 
-    const result = login(email, password);
+    const result = await login(email, password);
+
     if (result.success) {
       navigate('/dashboard');
     } else {
